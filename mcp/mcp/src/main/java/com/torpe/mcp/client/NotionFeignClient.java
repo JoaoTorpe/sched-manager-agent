@@ -1,5 +1,6 @@
 package com.torpe.mcp.client;
 
+import com.torpe.mcp.dto.NotionCreatePageRequest;
 import com.torpe.mcp.dto.NotionQueryRequest;
 import com.torpe.mcp.dto.NotionQueryResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -44,5 +45,20 @@ public interface NotionFeignClient {
             @RequestHeader("Notion-Version") String notionVersion,
             @RequestBody NotionQueryRequest request
     );
+
+    /**
+     * Cria uma nova página no Notion
+     *
+     * @param authorization Bearer token
+     * @param notionVersion Versão da API do Notion
+     * @param request Corpo da requisição com parent e properties da nova página
+     */
+    @PostMapping("/pages")
+    void createPage(
+            @RequestHeader("Authorization") String authorization,
+            @RequestHeader("Notion-Version") String notionVersion,
+            @RequestBody NotionCreatePageRequest request
+    );
+
 }
 

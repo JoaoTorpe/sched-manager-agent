@@ -2,6 +2,7 @@ package com.torpe.mcp.tools;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.torpe.mcp.dto.NotionCreatePageRequest;
 import com.torpe.mcp.dto.NotionQueryResponse;
 import com.torpe.mcp.dto.TaskDto;
 import com.torpe.mcp.service.SchedService;
@@ -33,6 +34,35 @@ public class SchedTools {
     public List<TaskDto> queryForDate(@ToolParam(description = "date (YYYY-MM-DD)") LocalDate date) {
         NotionQueryResponse response = schedService.queryForDate(date);
         return JsonUtils.notionResponseToTask(response);
+    }
+
+    @Tool(description = "Create a new task/event in the Notion database.")
+    public String createTask(
+            @ToolParam(description = "task title/name") String taskName,
+            @ToolParam(description = "task date in YYYY-MM-DD format") String date) {
+
+        NotionCreatePageRequest request = new NotionCreatePageRequest();
+
+
+        NotionCreatePageRequest.Properties properties = new NotionCreatePageRequest.Properties();
+
+        NotionCreatePageRequest.TitleProperty nome = new NotionCreatePageRequest.TitleProperty();
+        NotionCreatePageRequest.TitleContent titleContent = new NotionCreatePageRequest.TitleContent();
+        NotionCreatePageRequest.TextContent textContent = new NotionCreatePageRequest.TextContent(taskName);
+        titleContent.setText(textContent);
+        nome.setTitle(List.of(titleContent));
+        properties.setNome(nome);
+
+        NotionCreatePageRequest.DateProperty data = new NotionCreatePageRequest.DateProperty();
+        NotionCreatePageRequest.DateValue dateValue = new NotionCreatePageRequest.DateValue(date);
+        data.setDate(dateValue);
+        properties.setData(data);
+
+        request.setProperties(properties);
+
+        schedService.createPage(request);
+
+        return "Task '" + taskName + "' created successfully for date " + date;
     }
 }
 

@@ -1,6 +1,7 @@
 package com.torpe.mcp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.torpe.mcp.dto.NotionCreatePageRequest;
 import com.torpe.mcp.dto.NotionQueryResponse;
 import com.torpe.mcp.service.SchedService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,6 +31,13 @@ public class NotionController {
     public ResponseEntity<NotionQueryResponse> queryFromDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         NotionQueryResponse response = schedService.queryForDate(date);
         return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/create-task")
+    public ResponseEntity<Void> createPage(@RequestBody NotionCreatePageRequest request) {
+        schedService.createPage(request);
+        return ResponseEntity.status(201).build();
     }
 }
 

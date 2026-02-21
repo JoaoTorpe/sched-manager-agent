@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.torpe.mcp.client.NotionFeignClient;
 import com.torpe.mcp.config.NotionProperties;
+import com.torpe.mcp.dto.NotionCreatePageRequest;
 import com.torpe.mcp.dto.NotionQueryRequest;
 import com.torpe.mcp.dto.NotionQueryResponse;
-import org.springaicommunity.mcp.annotation.McpTool;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -42,6 +42,20 @@ public class SchedService {
 
         return notionFeignClient.queryFromDate(
                 notionProperties.getDataSourceId(),
+                formatBearer(notionProperties.getToken()),
+                notionProperties.getVersion(),
+                request
+        );
+    }
+
+
+    public void createPage(NotionCreatePageRequest request) {
+        NotionCreatePageRequest.Parent parent = new NotionCreatePageRequest.Parent();
+        parent.setType("data_source_id");
+        parent.setDataSourceId(notionProperties.getDataSourceId());
+        request.setParent(parent);
+
+        notionFeignClient.createPage(
                 formatBearer(notionProperties.getToken()),
                 notionProperties.getVersion(),
                 request
