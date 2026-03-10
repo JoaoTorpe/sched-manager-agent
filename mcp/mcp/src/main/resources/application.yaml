@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: mcp
+  main:
+    banner-mode: off
+
+  ai:
+    mcp:
+      server:
+        protocol: STREAMABLE
+        name: my-mcp-server
+        version: 0.0.1
+        annotation-scanner: true
+        streamable-http:
+          mcp-endpoint: /mcp
+
+server:
+  port: ${MCP_SERVER_PORT}
+
+notion:
+  api:
+    token: ${NOTION_API_TOKEN:}
+    data-source-id: ${NOTION_DATA_SOURCE_ID:}
+    version: ${NOTION_API_VERSION:2025-09-03}
+
+
+
+
+
+
+logging:
+  pattern:
+    console:

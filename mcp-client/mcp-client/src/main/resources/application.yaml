@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: mcp-client
+
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      chat:
+        options:
+          model: ${OPENAI_MODEL:gpt-4o-mini}
+
+    mcp:
+      client:
+        enabled: true
+        name: my-mcp-client
+        version: 1.0.0
+        type: SYNC
+        request-timeout: 20s
+        streamable-http:
+          connections:
+            dvaas:
+              url: ${MCP_SERVER_URL:http:}
+
+        toolcallback:
+          enabled: true
+
