@@ -34,10 +34,8 @@ build/
 
 ### Application Configuration ###
 # Ignore application.yaml with sensitive credentials
-**/application.yaml
-**/application.yml
-**/application-*.yaml
-**/application-*.yml
+**/application-local.yaml
+**/application-local.yml
 
 # Keep example files
 !src/main/resources/application-example.yaml
