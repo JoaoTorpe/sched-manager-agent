@@ -3,7 +3,7 @@ spring:
     name: mcp-client
 
   ai:
-    openai:
+    OpenAI:
       api-key: ${OPENAI_API_KEY:}
       chat:
         options:
