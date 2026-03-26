@@ -1,6 +1,8 @@
 package com.torpe.mcp_client.config;
 
-import com.torpe.mcp_client.model.MyBot;
+import com.torpe.mcp_client.model.TelegramConsumer;
+import com.torpe.mcp_client.service.ChatService;
+import com.torpe.mcp_client.service.MessageService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
@@ -19,10 +21,10 @@ public class TelegramBotConfiguration {
     }
 
     @Bean
-    public BotSession telegramBotSession(TelegramClient client) {
+    public BotSession telegramBotSession(TelegramConsumer telegramConsumer) {
         try {
             TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication();
-            return botsApplication.registerBot(telegramProperties.getToken(), new MyBot(client,telegramProperties));
+            return botsApplication.registerBot(telegramProperties.getToken(), telegramConsumer);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
