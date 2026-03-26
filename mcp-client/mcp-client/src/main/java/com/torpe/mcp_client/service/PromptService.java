@@ -19,7 +19,6 @@ public class PromptService {
         Resource resource = resourceLoader.getResource(
                 "classpath:prompts/" + name + ".md"
         );
-
         return new String(resource.getInputStream().readAllBytes());
     }
 }

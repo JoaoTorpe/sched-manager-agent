@@ -1,29 +1,23 @@
-package com.torpe.mcp_client.controller;
+package com.torpe.mcp_client.service;
 
-import com.torpe.mcp_client.service.PromptService;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
-@RestController
-@RequestMapping("/chat")
-public class ChatController {
+@Service
+public class ChatService {
 
     private final ChatClient client;
     private final PromptService promptService;
 
-    public ChatController(ChatClient client, PromptService promptService) {
+    public ChatService(ChatClient client, PromptService promptService) {
         this.client = client;
         this.promptService = promptService;
     }
 
-    @PostMapping
-    public String chat(@RequestBody String input) throws IOException {
+    public String chat (String input) throws IOException {
         LocalDate today = LocalDate.now();
         String systemPrompt = promptService
                 .loadPrompt("chat")
