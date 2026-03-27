@@ -21,11 +21,12 @@ public class JsonUtils {
         for (JsonNode item : node) {
             JsonNode properties = item.get("properties");
 
+            String taskId = item.path("id").asText();
             String title = properties.at("/Nome/title/0/plain_text").asText();
             String startDate = properties.at("/Data/date/start").asText();
             boolean isDone = properties.at("/Tags/checkbox").asBoolean();
 
-            tasks.add(new TaskDto(startDate, isDone, title));
+            tasks.add(new TaskDto(taskId, startDate, isDone, title));
         }
 
         return tasks;

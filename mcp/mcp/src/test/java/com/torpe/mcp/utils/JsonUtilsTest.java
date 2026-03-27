@@ -26,6 +26,7 @@ class JsonUtilsTest {
 
         assertEquals(1, tasks.size());
         TaskDto task = tasks.get(0);
+        assertEquals("abc-123", task.getTaskId());
         assertEquals("Tarefa para query teste", task.getTitle());
         assertEquals("2026-01-28", task.getStartDate());
         assertFalse(task.isDone());
@@ -43,6 +44,7 @@ class JsonUtilsTest {
 
         assertEquals(1, tasks.size());
         TaskDto task = tasks.get(0);
+        assertEquals("missing-fields", task.getTaskId());
         assertEquals("", task.getTitle());
         assertEquals("", task.getStartDate());
         assertFalse(task.isDone());
@@ -66,10 +68,12 @@ class JsonUtilsTest {
 
         assertEquals(2, tasks.size());
 
+        assertEquals("1", tasks.get(0).getTaskId());
         assertEquals("Primeira", tasks.get(0).getTitle());
         assertEquals("2026-02-01", tasks.get(0).getStartDate());
         assertTrue(tasks.get(0).isDone());
 
+        assertEquals("2", tasks.get(1).getTaskId());
         assertEquals("Segunda", tasks.get(1).getTitle());
         assertEquals("2026-02-02", tasks.get(1).getStartDate());
         assertFalse(tasks.get(1).isDone());
