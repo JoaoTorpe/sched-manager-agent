@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.torpe.mcp.client.NotionFeignClient;
 import com.torpe.mcp.config.NotionProperties;
-import com.torpe.mcp.dto.NotionCreatePageRequest;
-import com.torpe.mcp.dto.NotionQueryRequest;
-import com.torpe.mcp.dto.NotionQueryResponse;
+import com.torpe.mcp.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -44,6 +42,18 @@ public class SchedService {
                 notionProperties.getDataSourceId(),
                 formatBearer(notionProperties.getToken()),
                 notionProperties.getVersion(),
+                request
+        );
+    }
+
+    public void deleteTask(String taskId) {
+        NotionDeletePageRequest request = new NotionDeletePageRequest();
+        request.setInTrash(true);
+
+        notionFeignClient.deletePage(
+                formatBearer(notionProperties.getToken()),
+                notionProperties.getVersion(),
+                taskId,
                 request
         );
     }

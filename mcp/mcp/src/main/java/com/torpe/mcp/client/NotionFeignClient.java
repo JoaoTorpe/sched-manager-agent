@@ -1,13 +1,8 @@
 package com.torpe.mcp.client;
 
-import com.torpe.mcp.dto.NotionCreatePageRequest;
-import com.torpe.mcp.dto.NotionQueryRequest;
-import com.torpe.mcp.dto.NotionQueryResponse;
+import com.torpe.mcp.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "notion-api", url = "https://api.notion.com/v1")
 public interface NotionFeignClient {
@@ -58,6 +53,15 @@ public interface NotionFeignClient {
             @RequestHeader("Authorization") String authorization,
             @RequestHeader("Notion-Version") String notionVersion,
             @RequestBody NotionCreatePageRequest request
+    );
+
+
+    @PatchMapping("/pages/{pageId}")
+    void deletePage(
+            @RequestHeader("Authorization") String authorization,
+            @RequestHeader("Notion-Version") String notionVersion,
+            @PathVariable("pageId") String pageId,
+            @RequestBody NotionDeletePageRequest request
     );
 
 }
