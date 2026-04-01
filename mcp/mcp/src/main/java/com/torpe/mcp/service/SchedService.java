@@ -73,5 +73,19 @@ public class SchedService {
     }
 
 
-}
+    public void markTaskDone(String taskId, boolean done) {
+        NotionUpdatePageRequest request = new NotionUpdatePageRequest();
+        NotionUpdatePageRequest.Properties properties = new NotionUpdatePageRequest.Properties();
+        properties.setTags(new NotionUpdatePageRequest.CheckboxProperty(done));
+        request.setProperties(properties);
 
+        notionFeignClient.updatePageStatus(
+                formatBearer(notionProperties.getToken()),
+                notionProperties.getVersion(),
+                taskId,
+                request
+        );
+    }
+
+
+}

@@ -64,5 +64,12 @@ public interface NotionFeignClient {
             @RequestBody NotionDeletePageRequest request
     );
 
-}
+    @PatchMapping("/pages/{pageId}")
+    void updatePageStatus(
+            @RequestHeader("Authorization") String authorization,
+            @RequestHeader("Notion-Version") String notionVersion,
+            @PathVariable("pageId") String pageId,
+            @RequestBody NotionUpdatePageRequest request
+    );
 
+}

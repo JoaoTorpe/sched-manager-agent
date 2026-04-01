@@ -71,5 +71,12 @@ public class SchedTools {
 
         return "Task '" + taskName + "' created successfully for date " + date;
     }
-}
 
+    @Tool(description = "Set the task checkbox to true or false.")
+    public String markTaskDone(
+            @ToolParam(description = "Task ID") String taskId,
+            @ToolParam(description = "checkbox value (true/false)") boolean done) {
+        schedService.markTaskDone(taskId, done);
+        return "Task with ID " + taskId + " checkbox set to " + done;
+    }
+}
