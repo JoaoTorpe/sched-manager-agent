@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.torpe.mcp.client.NotionFeignClient;
 import com.torpe.mcp.config.NotionProperties;
-import com.torpe.mcp.dto.NotionCreatePageRequest;
-import com.torpe.mcp.dto.NotionQueryRequest;
-import com.torpe.mcp.dto.NotionQueryResponse;
+import com.torpe.mcp.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -48,6 +46,18 @@ public class SchedService {
         );
     }
 
+    public void deleteTask(String taskId) {
+        NotionDeletePageRequest request = new NotionDeletePageRequest();
+        request.setInTrash(true);
+
+        notionFeignClient.deletePage(
+                formatBearer(notionProperties.getToken()),
+                notionProperties.getVersion(),
+                taskId,
+                request
+        );
+    }
+
 
     public void createPage(NotionCreatePageRequest request) {
         NotionCreatePageRequest.Parent parent = new NotionCreatePageRequest.Parent();
@@ -63,5 +73,19 @@ public class SchedService {
     }
 
 
-}
+    public void markTaskDone(String taskId, boolean done) {
+        NotionUpdatePageRequest request = new NotionUpdatePageRequest();
+        NotionUpdatePageRequest.Properties properties = new NotionUpdatePageRequest.Properties();
+        properties.setTags(new NotionUpdatePageRequest.CheckboxProperty(done));
+        request.setProperties(properties);
 
+        notionFeignClient.updatePageStatus(
+                formatBearer(notionProperties.getToken()),
+                notionProperties.getVersion(),
+                taskId,
+                request
+        );
+    }
+
+
+}

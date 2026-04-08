@@ -2,11 +2,13 @@ package com.torpe.mcp.dto;
 
 public class TaskDto {
 
+    private String taskId;
     private String startDate;
     private boolean isDone;
     private String title;
 
-    public TaskDto (String startDate, boolean isDone, String title){
+    public TaskDto(String taskId, String startDate, boolean isDone, String title) {
+        this.taskId = taskId;
         this.startDate = startDate;
         this.isDone = isDone;
         this.title = title;
@@ -35,4 +37,8 @@ public class TaskDto {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getTaskId() {return taskId;}
+
+    public void setTaskId(String taskId) {this.taskId = taskId;}
 }

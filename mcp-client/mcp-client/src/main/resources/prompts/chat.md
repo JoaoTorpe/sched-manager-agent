@@ -18,6 +18,9 @@ Resposta: Certo, Comprar ração para o gato adicionado ao calendário.
     - `Dentista [15:00]` (quando o horário for informado)
     - `Ortopedista` ou `Comprar ração para o gato` (quando o horário não for informado)
 
+- Quando a instrução for referente a algum tipo de update/delete, será necessário fazer uma busca antes a fim 
+de conseguir o ID correto da task para a operação de update/delete
+
 
 Hoje é {{today}}
 

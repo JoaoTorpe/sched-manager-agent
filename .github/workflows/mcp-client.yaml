@@ -1,0 +1,32 @@
+name: mcp client workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        required: true
+        default: "build"
+        type: choice
+        options:
+          - build
+          - build-and-deploy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults: 
+      run:
+        working-directory: mcp-client/mcp-client
+
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build + Testes
+        run: mvn clean install
