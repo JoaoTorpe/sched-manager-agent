@@ -1,0 +1,54 @@
+name: mcp workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        required: true
+        default: "build"
+        type: choice
+        options:
+          - build
+          - build-and-deploy
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - name: mcp-client
+            path: mcp-client/mcp-client
+          - name: mcp-server
+            path: mcp/mcp
+
+    defaults:
+      run:
+        working-directory: ${{ matrix.path }}
+
+    steps:
+    
+      - name: Checkout 
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          
+      - name: Cache Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    
+      - name: Build
+        run: mvn clean package
+
+      - name: Build Docker image
+        run: docker build -t ${{ matrix.name }}:latest . 
+
+      - name: Deploy
+        if: ${{ github.event.inputs.action == 'build-and-deploy' }}
+        run: echo "Deploy do ${{ matrix.name }}"
