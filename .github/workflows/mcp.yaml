@@ -1,4 +1,4 @@
-name: mcp client workflow
+name: mcp server workflow
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults: 
       run:
-        working-directory: mcp-client/mcp-client
+        working-directory: mcp/mcp
 
     steps:
       - name: Checkout 
