@@ -47,8 +47,11 @@ jobs:
         run: mvn clean package
 
       - name: Build Docker image
-        run: docker build -t ${{ matrix.name }}:latest . 
+        run: docker build -t ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPO_NAME}}:${{matrix.name}} . 
 
-      - name: Deploy
+      - name: Push to docker hub
         if: ${{ github.event.inputs.action == 'build-and-deploy' }}
-        run: echo "Deploy do ${{ matrix.name }}"
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+      - name: Push image docker
+        if: ${{ github.event.inputs.action == 'build-and-deploy' }}
+        run: docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPO_NAME}}:${{matrix.name}}
