@@ -24,3 +24,8 @@ spring:
         toolcallback:
           enabled: true
 
+telegram:
+  api:
+    token: ${TELEGRAM_API_TOKEN}
+    url: ${TELEGRAM_API_URL}
+    channel: ${TELEGRAM_CHANNEL_ID}

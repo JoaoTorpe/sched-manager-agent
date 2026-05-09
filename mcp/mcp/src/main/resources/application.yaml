@@ -23,13 +23,6 @@ notion:
     data-source-id: ${NOTION_DATA_SOURCE_ID:}
     version: ${NOTION_API_VERSION:2025-09-03}
 
-telegram:
-  api:
-    token: ${TELEGRAM_API_TOKEN}
-    url:  ${TELEGRAM_API_URL}
-    channel: ${TELEGRAM_CHANNEL_ID}
-
-
 
 
 
