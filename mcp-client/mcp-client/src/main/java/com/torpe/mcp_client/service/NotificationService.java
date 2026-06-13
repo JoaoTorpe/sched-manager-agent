@@ -6,17 +6,19 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Component
 public class NotificationService {
 
     private final ChatClient client;
-
     private final PromptService promptService;
+    private final MessageService messageService;
 
-    public NotificationService(ChatClient client, PromptService promptService) {
+    public NotificationService(ChatClient client, PromptService promptService, MessageService messageService) {
         this.client = client;
         this.promptService = promptService;
+        this.messageService = messageService;
     }
 
     @Scheduled(cron = "0 0 6 * * MON", zone = "America/Sao_Paulo")
@@ -40,5 +42,7 @@ public class NotificationService {
                 .system(prompt)
                 .call()
                 .content();
+        if (!Objects.isNull(result))
+            messageService.sendMessage(result);
     }
 }
