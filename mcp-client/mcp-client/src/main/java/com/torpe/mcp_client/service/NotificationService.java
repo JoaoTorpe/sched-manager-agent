@@ -1,5 +1,6 @@
 package com.torpe.mcp_client.service;
 
+import com.torpe.mcp_client.service.interfaces.MessageService;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ public class NotificationService {
     private final PromptService promptService;
     private final MessageService messageService;
 
-    public NotificationService(ChatClient client, PromptService promptService, MessageService messageService) {
+    public NotificationService(ChatClient client, PromptService promptService, TelegramMessageService messageService) {
         this.client = client;
         this.promptService = promptService;
         this.messageService = messageService;

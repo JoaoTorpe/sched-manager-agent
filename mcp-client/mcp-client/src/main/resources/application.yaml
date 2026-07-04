@@ -19,7 +19,7 @@ spring:
         streamable-http:
           connections:
             dvaas:
-              url: ${MCP_SERVER_URL:http:}
+              url: ${MCP_SERVER_URL:http://localhost:8081/mcp}
 
         toolcallback:
           enabled: true
