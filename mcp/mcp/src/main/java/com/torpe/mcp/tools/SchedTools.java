@@ -12,6 +12,7 @@ import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,7 +47,8 @@ public class SchedTools {
     @Tool(description = "Create a new task/event in the Notion database.")
     public String createTask(
             @ToolParam(description = "task title/name") String taskName,
-            @ToolParam(description = "task date in YYYY-MM-DD format") String date) {
+            @ToolParam(description = "task date in YYYY-MM-DD format") String date,
+            @ToolParam(description = "optional textual description for the task", required = false) String description) {
 
         NotionCreatePageRequest request = new NotionCreatePageRequest();
 
@@ -64,12 +66,30 @@ public class SchedTools {
         NotionCreatePageRequest.DateValue dateValue = new NotionCreatePageRequest.DateValue(date);
         data.setDate(dateValue);
         properties.setData(data);
+        properties.setStatus(new NotionCreatePageRequest.StatusProperty("Not started"));
+        properties.setTags(new NotionCreatePageRequest.CheckboxProperty(false));
 
         request.setProperties(properties);
+        if (description != null && !description.isBlank()) {
+            request.setChildren(descriptionBlocks(description));
+        }
 
         schedService.createPage(request);
 
         return "Task '" + taskName + "' created successfully for date " + date;
+    }
+
+    private List<NotionCreatePageRequest.Block> descriptionBlocks(String description) {
+        List<NotionCreatePageRequest.RichText> richText = new ArrayList<>();
+        int start = 0;
+        int codePointCount = description.codePointCount(0, description.length());
+        while (start < description.length()) {
+            int end = description.offsetByCodePoints(start, Math.min(2000, codePointCount));
+            richText.add(new NotionCreatePageRequest.RichText(description.substring(start, end)));
+            codePointCount -= description.codePointCount(start, end);
+            start = end;
+        }
+        return List.of(new NotionCreatePageRequest.Block(richText));
     }
 
     @Tool(description = "Set the task checkbox to true or false.")

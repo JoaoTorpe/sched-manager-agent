@@ -1,6 +1,7 @@
 package com.torpe.mcp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
@@ -8,6 +9,8 @@ public class NotionCreatePageRequest {
 
     private Parent parent;
     private Properties properties;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<Block> children;
 
     public NotionCreatePageRequest() {
     }
@@ -31,6 +34,87 @@ public class NotionCreatePageRequest {
 
     public void setProperties(Properties properties) {
         this.properties = properties;
+    }
+
+    public List<Block> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Block> children) {
+        this.children = children;
+    }
+
+    public static class Block {
+        private String object = "block";
+        private String type = "paragraph";
+        private Paragraph paragraph;
+
+        public Block() {
+        }
+
+        public Block(List<RichText> richText) {
+            this.paragraph = new Paragraph(richText);
+        }
+
+        public String getObject() {
+            return object;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public Paragraph getParagraph() {
+            return paragraph;
+        }
+
+        public void setParagraph(Paragraph paragraph) {
+            this.paragraph = paragraph;
+        }
+    }
+
+    public static class Paragraph {
+        @JsonProperty("rich_text")
+        private List<RichText> richText;
+
+        public Paragraph() {
+        }
+
+        public Paragraph(List<RichText> richText) {
+            this.richText = richText;
+        }
+
+        public List<RichText> getRichText() {
+            return richText;
+        }
+
+        public void setRichText(List<RichText> richText) {
+            this.richText = richText;
+        }
+    }
+
+    public static class RichText {
+        private String type = "text";
+        private TextContent text;
+
+        public RichText() {
+        }
+
+        public RichText(String content) {
+            this.text = new TextContent(content);
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public TextContent getText() {
+            return text;
+        }
+
+        public void setText(TextContent text) {
+            this.text = text;
+        }
     }
 
     public static class Parent {
@@ -68,6 +152,10 @@ public class NotionCreatePageRequest {
         private TitleProperty nome;
         @JsonProperty("Data")
         private DateProperty data;
+        @JsonProperty("Status")
+        private StatusProperty status;
+        @JsonProperty("Tags")
+        private CheckboxProperty tags;
 
         public Properties() {
         }
@@ -91,6 +179,79 @@ public class NotionCreatePageRequest {
 
         public void setData(DateProperty data) {
             this.data = data;
+        }
+
+        public StatusProperty getStatus() {
+            return status;
+        }
+
+        public void setStatus(StatusProperty status) {
+            this.status = status;
+        }
+
+        public CheckboxProperty getTags() {
+            return tags;
+        }
+
+        public void setTags(CheckboxProperty tags) {
+            this.tags = tags;
+        }
+    }
+
+    public static class StatusProperty {
+        private StatusValue status;
+
+        public StatusProperty() {
+        }
+
+        public StatusProperty(String name) {
+            this.status = new StatusValue(name);
+        }
+
+        public StatusValue getStatus() {
+            return status;
+        }
+
+        public void setStatus(StatusValue status) {
+            this.status = status;
+        }
+    }
+
+    public static class StatusValue {
+        private String name;
+
+        public StatusValue() {
+        }
+
+        public StatusValue(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class CheckboxProperty {
+        private boolean checkbox;
+
+        public CheckboxProperty() {
+        }
+
+        public CheckboxProperty(boolean checkbox) {
+            this.checkbox = checkbox;
+        }
+
+        public boolean isCheckbox() {
+            return checkbox;
+        }
+
+        public void setCheckbox(boolean checkbox) {
+            this.checkbox = checkbox;
         }
     }
 
